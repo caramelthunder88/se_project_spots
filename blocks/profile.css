@@ -6,6 +6,7 @@
 
 .profile__aviator {
   margin-right: 20px;
+  border-radius: 10px;
 }
 
 .profile__column {
@@ -40,6 +41,7 @@
 .profile__edit-button {
   margin-top: auto;
   display: flex;
+
   gap: 8px;
   background-color: Transparent;
   border: none;
@@ -53,11 +55,20 @@
 
 .profile__plus-button {
   margin-left: auto;
+  display: flex;
+  gap: 8px;
+  color: #fcf5e5;
   height: 52px;
-  border: 0;
+  width: 157px;
+  align-items: center;
+  width: 157px;
+  padding: 0;
+  justify-content: center;
+  background-color: #212121;
   align-self: flex-end;
   cursor: pointer;
   transition: opacity 0.3s ease;
+  border-radius: 10px;
 }
 
 .profile__plus-button:hover {
@@ -78,6 +89,7 @@
     height: 80px;
     width: 80px;
     margin-bottom: 12px;
+    border-radius: 10px;
   }
 
   .profile__column {
@@ -99,14 +111,18 @@
   .profile__edit-button {
     padding: 0;
     align-self: center;
+    border-radius: 10px;
   }
 
   .profile__plus-button {
     padding-bottom: 20px;
     margin: 0;
-    width: 100%;
-    display: block;
-    align-self: stretch;
+    max-width: 288px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    align-self: center;
   }
 
   .profile__header {
