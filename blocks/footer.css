@@ -2,5 +2,12 @@
   display: flex;
   justify-content: center;
   padding: 60px 0;
-  font-family: Poppins-2, Arial, Helvetica, sans-serif;
+}
+
+.footer__content {
+  font-family: Poppins, Arial, Helvetica, sans-serif;
+  font-weight: 400px;
+  font-size: 16px;
+  line-height: 16px;
+  color: #212121;
 }

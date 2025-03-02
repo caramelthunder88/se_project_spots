@@ -1,12 +1,11 @@
 .card {
-  max-width: 413px;
 }
 
 .card__image {
   height: 445px;
   width: 100%;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .card__content {
@@ -19,27 +18,34 @@
 
 .card__heading {
   line-height: 24px;
-  font-size: 24px;
+  font-size: 20px;
+  font-weight: 500px;
+  max-width: 100%;
+  color: #212121;
   margin: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
-.card__heart-button {
+.card__like__button {
   background-image: url(../images/heart-logo.svg.svg);
   width: 23px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 40%;
   height: 20px;
   border: none;
   padding: 0;
   cursor: pointer;
 }
 
-.card__heart-button:hover {
-  opacity: 0.5;
+.card__like__button:hover {
+  opacity: 1;
 }
 
-@media (max-width: 650px) {
+@media screen and (max-width: 650px) {
   .card__image {
     height: 288px;
   }
