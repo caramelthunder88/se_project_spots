@@ -21,7 +21,7 @@ images.
 
 ### GitHub Link
 
-The link to my project is @ git@github.com:caramelthunder88/se_project_spots.git it is made public on github. I am open to all advice on how to how improve this project so I can grow in anyway possible.
+The link to my project is @ git@github.com:caramelthunder88/se_project_spots.git it is made public on github. The live link is https://caramelthunder88.github.io/se_project_spots/ I am open to all advice on how to how improve this project so I can grow in anyway possible.
 
 ### Link to screen recording
 
