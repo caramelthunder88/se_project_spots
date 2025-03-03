@@ -25,4 +25,4 @@ The link to my project is @ git@github.com:caramelthunder88/se_project_spots.git
 
 ### Link to screen recording
 
-Here is the link to my screen recording of my project https://drive.google.com/file/d/11YybeLXlsA0ZtfNqip_Moci56_qulfLa/view?usp=sharing
+Here is the link to my screen recording of my project https://drive.google.com/file/d/1vEXmtJBWt2po6YOYxsF_o2kLGH4XplPg/view?usp=sharing
