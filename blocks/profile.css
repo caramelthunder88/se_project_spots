@@ -32,6 +32,7 @@
   font-size: 16px;
   line-height: 16px;
   font-weight: 500;
+  opacity: 70%;
   color: #212121;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -71,7 +72,6 @@
   width: 157px;
   align-items: center;
   opacity: 1;
-  width: 157px;
   padding: 0;
   justify-content: center;
   background-color: #212121;
