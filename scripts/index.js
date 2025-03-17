@@ -51,7 +51,7 @@ const editModalDescriptionInput = editProfileModal.querySelector(
 );
 
 const cardTemplate = document.querySelector("#card-template");
-const cardLists = document.querySelector(".card__list");
+const cardList = document.querySelector(".cards__list");
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content
@@ -91,6 +91,6 @@ closeEditProfile.addEventListener("click", closeModal); //step 2.2
 profileForm.addEventListener("submit", handleEditFormSubmit);
 
 for (let i = 0; i < initialCards.length; i++) {
-  const CardElement = getCardElement(initialCards[i]);
-  cardLists.prepend(CardElement);
+  const cardElement = getCardElement(initialCards[i]);
+  cardList.prepend(cardElement);
 }
