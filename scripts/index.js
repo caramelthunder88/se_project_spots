@@ -36,12 +36,13 @@ const initialCards = [
   },
 ];
 
-const profileEditButton = document.querySelector(".profile__edit-button"); //step 1
+const profileEditButton = document.querySelector(".profile__edit-button");
+const cardModalButton = document.querySelector(".profile__plus-button");
 const profileName = document.querySelector(".profile__title");
 const profileDescripton = document.querySelector(".profile__description");
 
-const editProfileModal = document.querySelector("#edit-profile-modal"); //gavve id to class to use id in place of class.  a hash (#) must be placed in front of id name. step 2
-const closeEditProfile = editProfileModal.querySelector(".modal__close-button"); //step 1.1
+const editProfileModal = document.querySelector("#edit-profile-modal"); //gavve id to class to use id in place of class.  a hash (#) must be placed in front of id name.
+const closeEditProfile = editProfileModal.querySelector(".modal__close-button");
 const profileForm = editProfileModal.querySelector("#profile-form");
 const editModalNameInput = editProfileModal.querySelector(
   "#profile-name-input"
@@ -49,6 +50,12 @@ const editModalNameInput = editProfileModal.querySelector(
 const editModalDescriptionInput = editProfileModal.querySelector(
   "#profile-description-input"
 );
+
+const cardModal = document.querySelector("#add-card-modal");
+const cardForm = cardModal.querySelector(".modal__form");
+const cardModalCloseButton = cardModal.querySelector(".modal__close-button");
+const cardCaptionInput = cardModal.querySelector("#add-card-caption-input");
+const cardImageInput = cardModal.querySelector("#add-card-link-input");
 
 const cardTemplate = document.querySelector("#card-template");
 const cardList = document.querySelector(".cards__list");
@@ -68,32 +75,52 @@ function getCardElement(data) {
   return cardElement;
 }
 
-function openModal() {
-  editModalNameInput.value = profileName.textContent;
-  editModalDescriptionInput.value = profileDescripton.textContent;
-  editProfileModal.classList.add("modal_opened"); //step 3.3 (button closes modal)
+function openModal(modal) {
+  modal.classList.add("modal_opened");
 }
 
-function closeModal() {
-  editProfileModal.classList.remove("modal_opened"); //step 4 (button opens modal)
+function closeModal(modal) {
+  modal.classList.remove("modal_opened");
 }
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = editModalNameInput.value;
   profileDescripton.textContent = editModalDescriptionInput.value;
-  closeModal();
+  closeModal(editProfileModal);
 }
 
-profileEditButton.addEventListener("click", openModal); //step 3
+function handlecardsubmit(evt) {
+  evt.preventDefault();
+  const inputValues = {
+    name: cardCaptionInput.value,
+    link: cardImageInput.value,
+  };
+  const cardElement = getCardElement(inputValues);
+  cardList.prepend(cardElement);
+  closeModal(cardModal);
+}
 
-closeEditProfile.addEventListener("click", closeModal); //step 2.2
+profileEditButton.addEventListener("click", () => {
+  editModalNameInput.value = profileName.textContent;
+  editModalDescriptionInput.value = profileDescripton.textContent;
+  openModal(editProfileModal);
+});
+
+closeEditProfile.addEventListener("click", () => {
+  closeModal(editProfileModal);
+});
+
+cardModalButton.addEventListener("click", () => {
+  openModal(cardModal);
+});
+
+cardModalCloseButton.addEventListener("click", () => {
+  closeModal(cardModal);
+});
+
 profileForm.addEventListener("submit", handleEditFormSubmit);
-
-//for (let i = 0; i < initialCards.length; i++) {
-//const cardElement = getCardElement(initialCards[i]);
-// cardList.prepend(cardElement);
-//}
+cardForm.addEventListener("submit", handlecardsubmit);
 
 initialCards.forEach((card) => {
   const cardElement = getCardElement(card);
