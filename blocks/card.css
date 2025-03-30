@@ -30,13 +30,13 @@
 }
 
 .card__like-button {
-  background-image: url(../images/heart-logo.svg.svg);
+  background-image: url(../images/heart-logo.svg);
   background-color: transparent;
   width: 23px;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 40%;
+  opacity: 0.4;
   height: 20px;
   border: none;
   padding: 0;
@@ -48,7 +48,7 @@
 }
 
 .card__like-button_liked {
-  background-image: url(../images/State-Liked.svg);
+  background-image: url(../images/heart-liked.svg);
   opacity: 1;
 }
 
@@ -64,6 +64,7 @@
   width: 18px;
   height: 18px;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
   position: absolute;
   top: 10px;

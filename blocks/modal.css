@@ -1,5 +1,6 @@
 .modal {
   position: fixed; /*fixes the container to the browser windwow */
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   top: 0;
   left: 0;
   bottom: 0;
@@ -24,6 +25,7 @@
 .modal__container {
   background-color: white;
   max-width: 730px;
+  width: 100%;
   padding: 32px 50px;
   box-sizing: border-box;
   position: relative; /*give position relative to container so that item is anchored inside, which in this case is the close button */
@@ -32,6 +34,7 @@
 
 .modal__container_type_preview {
   padding: 0;
+  width: auto;
   background-color: transparent;
   display: inline-block;
   position: relative;
@@ -39,19 +42,18 @@
 
 .modal__image {
   object-fit: contain;
-  max-width: 80vw;
-  max-height: 80vh;
   max-width: 100%;
+  max-height: 80vh;
   border-radius: 8px;
 }
 
 .modal__close-button {
   position: absolute;
-  top: 32px;
+  top: 30px;
   right: 50px;
   width: 40px;
   height: 40px;
-  opacity: 40%;
+  opacity: 0.4;
   padding: 0;
   background-color: transparent;
   border: none;
@@ -64,7 +66,7 @@
   position: absolute;
   top: 0;
   right: -52px;
-  opacity: 40%;
+  opacity: 0.4;
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -90,13 +92,12 @@
 }
 
 .modal__close-button:hover {
-  opacity: 100%;
+  opacity: 1;
 }
 
 .modal__title {
   display: flex;
   margin: 0 0 32px;
-  font-family: Poppins, Arial, Helvetica, sans-serif;
   font-size: 32px;
   font-weight: 500;
   line-height: 100%;
@@ -110,7 +111,7 @@
   font-size: 16px;
   font-weight: 500;
   color: #212121;
-  opacity: 70%;
+  opacity: 0.7;
 }
 
 .modal__submit-button {
@@ -124,20 +125,28 @@
   cursor: pointer;
 }
 
+.modal__submit-button:hover {
+  background-color: #000000;
+}
+
 .modal__input {
   padding: 16px 12px;
   font-weight: 500;
   font-size: 20px;
   line-height: 100%;
   border-radius: 8px;
-  border-color: #212121;
+  border-color: rgba(33, 33, 33, 0.6);
   border-width: 1px;
   cursor: pointer;
-  opacity: 40%;
+  color: #212121;
+}
+
+.modal__input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .modal__input:hover {
-  opacity: 100%;
+  border-color: rgba(33, 33, 33, 1);
 }
 
 @media screen and (max-width: 650px) {

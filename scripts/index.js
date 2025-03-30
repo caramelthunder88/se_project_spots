@@ -45,7 +45,7 @@ const initialCards = [
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__plus-button");
 const profileName = document.querySelector(".profile__title");
-const profileDescripton = document.querySelector(".profile__description");
+const profileDescription = document.querySelector(".profile__description");
 
 const editProfileModal = document.querySelector("#edit-profile-modal"); //gavve id to class to use id in place of class.  a hash (#) must be placed in front of id name.
 const closeEditProfile = editProfileModal.querySelector(".modal__close-button");
@@ -102,12 +102,12 @@ function getCardElement(data) {
     previewModalCaption.textContent = data.name;
   });
 
-  previewModalCloseButton.addEventListener("click", () => {
-    closeModal(previewModal);
-  });
-
   return cardElement;
 }
+
+previewModalCloseButton.addEventListener("click", () => {
+  closeModal(previewModal);
+});
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
@@ -120,11 +120,11 @@ function closeModal(modal) {
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = editModalNameInput.value;
-  profileDescripton.textContent = editModalDescriptionInput.value;
+  profileDescription.textContent = editModalDescriptionInput.value;
   closeModal(editProfileModal);
 }
 
-function handlecardsubmit(evt) {
+function handleCardSubmit(evt) {
   evt.preventDefault();
   const inputValues = {
     name: cardCaptionInput.value,
@@ -137,7 +137,7 @@ function handlecardsubmit(evt) {
 
 profileEditButton.addEventListener("click", () => {
   editModalNameInput.value = profileName.textContent;
-  editModalDescriptionInput.value = profileDescripton.textContent;
+  editModalDescriptionInput.value = profileDescription.textContent;
   openModal(editProfileModal);
 });
 
@@ -154,7 +154,7 @@ cardModalCloseButton.addEventListener("click", () => {
 });
 
 profileForm.addEventListener("submit", handleEditFormSubmit);
-cardForm.addEventListener("submit", handlecardsubmit);
+cardForm.addEventListener("submit", handleCardSubmit);
 
 initialCards.forEach((card) => {
   const cardElement = getCardElement(card);
