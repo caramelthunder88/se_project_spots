@@ -72,10 +72,6 @@
   cursor: pointer;
 }
 
-.modal__close-button_type_preview:hover {
-  opacity: 0.4;
-}
-
 .modal__caption {
   color: #ffffff;
   background-color: #212121;
@@ -93,6 +89,10 @@
 
 .modal__close-button:hover {
   opacity: 1;
+}
+
+.modal__close-button_type_preview:hover {
+  opacity: 0.4;
 }
 
 .modal__title {
@@ -193,8 +193,8 @@
     width: 40px;
     height: 40px;
     padding: 0;
-    top: -40px;
-    right: 16px;
+    top: -48px;
+    right: 0;
   }
 
   .modal__image {
