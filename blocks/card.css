@@ -58,11 +58,11 @@
 
 .card__delete-button {
   background-image: url(../images/Delete-icon-default.svg);
-  background-position: center;
+  background-size: contain;
   background-repeat: no-repeat;
   background-color: transparent;
-  width: 18px;
-  height: 18px;
+  width: 32px;
+  height: 32px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
