@@ -146,6 +146,7 @@ closeEditProfile.addEventListener("click", () => {
 });
 
 cardModalButton.addEventListener("click", () => {
+  cardForm.reset();
   openModal(cardModal);
 });
 
