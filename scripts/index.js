@@ -57,8 +57,10 @@ const editModalDescriptionInput = editProfileModal.querySelector(
   "#profile-description-input"
 );
 
+const modals = document.querySelectorAll(".modal");
 const cardModal = document.querySelector("#add-card-modal");
 const cardForm = cardModal.querySelector(".modal__form");
+const cardSubmitButton = cardModal.querySelector(".modal__submit-button");
 const cardModalCloseButton = cardModal.querySelector(".modal__close-button");
 const cardCaptionInput = cardModal.querySelector("#add-card-caption-input");
 const cardImageInput = cardModal.querySelector("#add-card-link-input");
@@ -105,16 +107,36 @@ function getCardElement(data) {
   return cardElement;
 }
 
+modals.forEach((modal) => {
+  modal.addEventListener("click", (event) => {
+    // Check if the click was on the overlay (i.e., NOT inside modal content)
+    if (event.target.classList.contains("modal")) {
+      closeModal(modal);
+    }
+  });
+});
+
+function handleEscapeKey(evt) {
+  if (evt.key === "Escape") {
+    const openModal = document.querySelector(".modal.modal_opened");
+    if (openModal) {
+      closeModal(openModal);
+    }
+  }
+}
+
 previewModalCloseButton.addEventListener("click", () => {
   closeModal(previewModal);
 });
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  document.addEventListener("keydown", handleEscapeKey);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keydown", handleEscapeKey);
 }
 
 function handleEditFormSubmit(evt) {
@@ -132,12 +154,14 @@ function handleCardSubmit(evt) {
   };
   const cardElement = getCardElement(inputValues);
   cardList.prepend(cardElement);
+  disableButton(cardSubmitButton);
   closeModal(cardModal);
 }
 
 profileEditButton.addEventListener("click", () => {
   editModalNameInput.value = profileName.textContent;
   editModalDescriptionInput.value = profileDescription.textContent;
+
   openModal(editProfileModal);
 });
 
@@ -147,6 +171,7 @@ closeEditProfile.addEventListener("click", () => {
 
 cardModalButton.addEventListener("click", () => {
   cardForm.reset();
+
   openModal(cardModal);
 });
 
