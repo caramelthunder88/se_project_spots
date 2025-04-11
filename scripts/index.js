@@ -154,7 +154,7 @@ function handleCardSubmit(evt) {
   };
   const cardElement = getCardElement(inputValues);
   cardList.prepend(cardElement);
-  disableButton(cardSubmitButton);
+  disableButton(cardSubmitButton, settings);
   closeModal(cardModal);
 }
 
