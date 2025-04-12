@@ -27,6 +27,17 @@ const checkInputValidity = (formEl, inputElement, config) => {
   }
 };
 
+function resetValidation(formEl, config) {
+  const inputList = Array.from(formEl.querySelectorAll(config.inputSelector));
+  const buttonElement = formEl.querySelector(config.submitButtonSelector);
+
+  inputList.forEach((inputElement) => {
+    hideInputError(formEl, inputElement, config);
+  });
+
+  toggleButtonState(inputList, buttonElement, config);
+}
+
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => !inputElement.validity.valid);
 };
@@ -56,6 +67,10 @@ const setEventListeners = (formEl, config) => {
       checkInputValidity(formEl, inputElement, config);
       toggleButtonState(inputList, buttonElement, config);
     });
+  });
+
+  formEl.addEventListener("reset", () => {
+    disableButton(buttonElement, config);
   });
 };
 
