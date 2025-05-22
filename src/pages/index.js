@@ -1,6 +1,6 @@
 import "./index.css";
 import { enableValidation, settings } from "../scripts/validation.js";
-import Api from "../scripts/Api.js";
+import Api from "../utils/Api.js";
 const initialCards = [
   {
     name: "Val Thorens",
@@ -52,13 +52,18 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-api.getInitialCards().then((cards) => {
-  console.log(cards);
-  cards.forEach((card) => {
-    const cardElement = getCardElement(card);
-    cardList.prepend(cardElement);
+api
+  .getInitialCards()
+  .then((cards) => {
+    console.log(cards);
+    cards.forEach((card) => {
+      const cardElement = getCardElement(card);
+      cardList.prepend(cardElement);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-});
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__plus-button");
