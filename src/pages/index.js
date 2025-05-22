@@ -1,3 +1,6 @@
+import "./index.css";
+import { enableValidation, settings } from "../scripts/validation.js";
+import Api from "../scripts/Api.js";
 const initialCards = [
   {
     name: "Val Thorens",
@@ -41,6 +44,21 @@ const initialCards = [
     alt: "Image of Bridge",
   },
 ];
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "7f0df622-e052-48ca-afd6-8b05c9131277",
+    "Content-Type": "application/json",
+  },
+});
+api.getInitialCards().then((cards) => {
+  console.log(cards);
+  cards.forEach((card) => {
+    const cardElement = getCardElement(card);
+    cardList.prepend(cardElement);
+  });
+});
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__plus-button");
@@ -183,7 +201,4 @@ cardModalCloseButton.addEventListener("click", () => {
 profileForm.addEventListener("submit", handleEditFormSubmit);
 cardForm.addEventListener("submit", handleCardSubmit);
 
-initialCards.forEach((card) => {
-  const cardElement = getCardElement(card);
-  cardList.prepend(cardElement);
-});
+enableValidation(settings);
