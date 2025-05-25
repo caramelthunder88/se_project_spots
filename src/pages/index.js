@@ -47,14 +47,20 @@ const initialCards = [
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  userBaseUrl: "https://around-api.en.tripleten-services.com/v1/users/me",
   headers: {
     authorization: "7f0df622-e052-48ca-afd6-8b05c9131277",
     "Content-Type": "application/json",
   },
 });
+
 api
-  .getInitialCards()
-  .then((cards) => {
+  .getAppInfo()
+
+  .then(([cards, userInfo]) => {
+    profileName.textContent = userInfo.name;
+    profileDescription.textContent = userInfo.about;
+    profileAvatarImage.src = userInfo.avatar;
     console.log(cards);
     cards.forEach((card) => {
       const cardElement = getCardElement(card);
@@ -69,8 +75,10 @@ const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__plus-button");
 const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
+const profileAvatarImage = document.querySelector(".profile__image");
+const avatarModalBtn = document.querySelector(".profile__avatar-btn");
 
-const editProfileModal = document.querySelector("#edit-profile-modal"); //gavve id to class to use id in place of class.  a hash (#) must be placed in front of id name.
+const editProfileModal = document.querySelector("#edit-profile-modal");
 const closeEditProfile = editProfileModal.querySelector(".modal__close-button");
 const profileForm = editProfileModal.querySelector("#profile-form");
 const editModalNameInput = editProfileModal.querySelector(
@@ -87,6 +95,14 @@ const cardSubmitButton = cardModal.querySelector(".modal__submit-button");
 const cardModalCloseButton = cardModal.querySelector(".modal__close-button");
 const cardCaptionInput = cardModal.querySelector("#add-card-caption-input");
 const cardImageInput = cardModal.querySelector("#add-card-link-input");
+
+const avatarModal = document.querySelector("#edit-avatar-modal");
+const avatarForm = avatarModal.querySelector(".modal__form");
+const avatarSubmitButton = avatarModal.querySelector(".modal__submit-button");
+const avatarModalCloseButton = avatarModal.querySelector(
+  ".modal__close-button"
+);
+const avatarInput = avatarModal.querySelector("#profile-avatar-input");
 
 const previewModal = document.querySelector("#preview-modal");
 const previewModalImage = previewModal.querySelector(".modal__image");
@@ -132,12 +148,28 @@ function getCardElement(data) {
 
 modals.forEach((modal) => {
   modal.addEventListener("click", (event) => {
-    // Check if the click was on the overlay (i.e., NOT inside modal content)
     if (event.target.classList.contains("modal")) {
       closeModal(modal);
     }
   });
 });
+
+function handleAvatarSubmit(evt) {
+  evt.preventDefault();
+
+  const avatarLink = avatarInput.value;
+
+  api
+    .editAvatarInfo({ avatar: avatarLink })
+    .then((data) => {
+      profileAvatarImage.src = data.avatar;
+      avatarForm.reset();
+      closeModal(avatarModal);
+    })
+    .catch((err) => {
+      console.error("Failed to update avatar:", err);
+    });
+}
 
 function handleEscapeKey(evt) {
   if (evt.key === "Escape") {
@@ -164,9 +196,19 @@ function closeModal(modal) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  profileName.textContent = editModalNameInput.value;
-  profileDescription.textContent = editModalDescriptionInput.value;
-  closeModal(editProfileModal);
+
+  api
+    .editUserInfo({
+      //Use data argument instead of the input value
+      name: editModalNameInput.value,
+      about: editModalDescriptionInput.value,
+    })
+    .then((data) => {
+      profileName.textContent = data.name;
+      profileDescription.textContent = data.about;
+      closeModal(editProfileModal);
+    })
+    .catch(console.error);
 }
 
 function handleCardSubmit(evt) {
@@ -203,6 +245,14 @@ cardModalCloseButton.addEventListener("click", () => {
   closeModal(cardModal);
 });
 
+avatarModalBtn.addEventListener("click", () => {
+  openModal(avatarModal);
+});
+
+avatarModalCloseButton.addEventListener("click", () => {
+  closeModal(avatarModal);
+});
+avatarForm.addEventListener("submit", handleAvatarSubmit);
 profileForm.addEventListener("submit", handleEditFormSubmit);
 cardForm.addEventListener("submit", handleCardSubmit);
 

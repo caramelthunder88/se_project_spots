@@ -20,11 +20,20 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="<%=require('./images/avatar.jpg')%>"
-            alt="aviator image"
-            class="profile__image"
-          />
+          <div class="profile__avatar-container">
+            <button class="profile__avatar-btn">
+              <img
+                src="<%= require('./images/avatar-pencil.svg') %>"
+                alt="avatar pencil"
+                class="profile__pencil-icon"
+              />
+            </button>
+            <img
+              src="<%=require('./images/avatar.jpg')%>"
+              alt="aviator image"
+              class="profile__image"
+            />
+          </div>
           <div class="profile__column">
             <h1 class="profile__title">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
@@ -162,6 +171,36 @@
         ></button>
         <img class="modal__image" src="#" alt="" />
         <p class="modal__caption"></p>
+      </div>
+    </div>
+    <div class="modal" id="edit-avatar-modal">
+      <div class="modal__container">
+        <button type="button" class="modal__close-button">
+          <img src="<%=require('./images/close-icon.svg')%>" alt="close icon" />
+        </button>
+        <h2 class="modal__title">Edit Avatar</h2>
+        <form
+          name="edit-profile"
+          class="modal__form"
+          id="profile-avatar-form"
+          novalidate
+        >
+          <label for="profile-avatar-input" class="modal__label"
+            >Avatar
+            <input
+              id="profile-avatar-input"
+              class="modal__input"
+              placeholder="avatar goes here"
+              type="text"
+              required
+            />
+            <span id="profile-avatar-input-error" class="modal__error"
+              >Please fill out this field.</span
+            >
+          </label>
+
+          <button type="submit" class="modal__submit-button">Save</button>
+        </form>
       </div>
     </div>
   </body>
