@@ -1,5 +1,9 @@
 import "./index.css";
-import { enableValidation, settings } from "../scripts/validation.js";
+import {
+  enableValidation,
+  settings,
+  resetValidation,
+} from "../scripts/validation.js";
 import Api from "../utils/Api.js";
 const initialCards = [
   {
@@ -54,16 +58,20 @@ const api = new Api({
   },
 });
 
+let currentUserId;
+
 api
   .getAppInfo()
 
   .then(([cards, userInfo]) => {
+    currentUserId = userInfo._id;
     profileName.textContent = userInfo.name;
     profileDescription.textContent = userInfo.about;
     profileAvatarImage.src = userInfo.avatar;
     console.log(cards);
+
     cards.forEach((card) => {
-      const cardElement = getCardElement(card);
+      const cardElement = getCardElement(card, currentUserId);
       cardList.prepend(cardElement);
     });
   })
@@ -104,6 +112,9 @@ const avatarModalCloseButton = avatarModal.querySelector(
 );
 const avatarInput = avatarModal.querySelector("#profile-avatar-input");
 
+const deleteModal = document.querySelector("#delete-modal");
+const deleteForm = deleteModal.querySelector(".modal__form");
+
 const previewModal = document.querySelector("#preview-modal");
 const previewModalImage = previewModal.querySelector(".modal__image");
 const previewModalCaption = previewModal.querySelector(".modal__caption");
@@ -114,7 +125,26 @@ const previewModalCloseButton = previewModal.querySelector(
 const cardTemplate = document.querySelector("#card-template");
 const cardList = document.querySelector(".cards__list");
 
-function getCardElement(data) {
+let selectedCard, selectedCardId;
+
+function handleLike(cardId, likeButton) {
+  const isLiked = likeButton.classList.contains("card__like-button_liked");
+
+  api
+    .changeLikeStatus(cardId, !isLiked)
+    .then((updatedCard) => {
+      const userLiked = updatedCard.likes?.some(
+        (like) => like._id === currentUserId
+      );
+
+      likeButton.classList.toggle("card__like-button_liked", userLiked);
+    })
+    .catch((err) => {
+      console.error("Failed to toggle like:", err);
+    });
+}
+
+function getCardElement(data, userId) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
@@ -128,12 +158,20 @@ function getCardElement(data) {
   cardImageElement.src = data.link;
   cardImageElement.alt = data.name;
 
+  const isLiked =
+    Array.isArray(data.likes) && data.likes.some((like) => like._id === userId);
+  if (isLiked) {
+    cardLikeButton.classList.add("card__like-button_liked");
+  }
+
   cardLikeButton.addEventListener("click", () => {
-    cardLikeButton.classList.toggle("card__like-button_liked");
+    handleLike(data._id, cardLikeButton);
   });
 
   cardDeleteButton.addEventListener("click", () => {
-    cardElement.remove();
+    openModal(deleteModal);
+    selectedCard = cardElement;
+    selectedCardId = data._id;
   });
 
   cardImageElement.addEventListener("click", () => {
@@ -194,9 +232,22 @@ function closeModal(modal) {
   document.removeEventListener("keydown", handleEscapeKey);
 }
 
-function handleEditFormSubmit(evt) {
+function handleDeleteSubmit(evt) {
   evt.preventDefault();
 
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteModal);
+    })
+    .catch((err) => {
+      console.error("Failed to delete card:", err);
+    });
+}
+
+function handleEditFormSubmit(evt) {
+  evt.preventDefault();
   api
     .editUserInfo({
       //Use data argument instead of the input value
@@ -213,15 +264,22 @@ function handleEditFormSubmit(evt) {
 
 function handleCardSubmit(evt) {
   evt.preventDefault();
-  const inputValues = {
-    name: cardCaptionInput.value,
-    link: cardImageInput.value,
-  };
-  const cardElement = getCardElement(inputValues);
-  cardList.prepend(cardElement);
-  disableButton(cardSubmitButton, settings);
-  cardForm.reset();
-  closeModal(cardModal);
+
+  const name = cardCaptionInput.value;
+  const link = cardImageInput.value;
+
+  api
+    .addCard({ name, link })
+    .then((card) => {
+      const cardElement = getCardElement(card, currentUserId);
+      cardList.prepend(cardElement);
+      cardForm.reset();
+      disableButton(cardSubmitButton, settings);
+      closeModal(cardModal);
+    })
+    .catch((err) => {
+      console.error("Failed to add card:", err);
+    });
 }
 
 profileEditButton.addEventListener("click", () => {
@@ -255,5 +313,7 @@ avatarModalCloseButton.addEventListener("click", () => {
 avatarForm.addEventListener("submit", handleAvatarSubmit);
 profileForm.addEventListener("submit", handleEditFormSubmit);
 cardForm.addEventListener("submit", handleCardSubmit);
+
+deleteForm.addEventListener("submit", handleDeleteSubmit);
 
 enableValidation(settings);

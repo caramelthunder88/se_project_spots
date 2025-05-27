@@ -90,4 +90,6 @@ export const settings = {
   errorClass: "modal__error_visible",
 };
 
+export { resetValidation };
+
 enableValidation(settings);
