@@ -139,11 +139,12 @@ const cardList = document.querySelector(".cards__list");
 
 let selectedCard, selectedCardId;
 
-function handleLike(cardId, likeButton) {
+function handleLike(id, likeButton) {
   const isLiked = likeButton.classList.contains("card__like-button_liked");
-
+  console.log("Before API call - isLiked:", isLiked);
+  console.log("Sending to API - isLiked:", isLiked);
   api
-    .changeLikeStatus(cardId, !isLiked)
+    .changeLikeStatus(id, !isLiked)
     .then((updatedCard) => {
       console.log("Updated card from server:", updatedCard);
       const userLiked = updatedCard.likes?.some(
