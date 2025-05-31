@@ -174,16 +174,9 @@ function getCardElement(data, userId) {
   console.log("Card data:", data.name, "Likes:", data.likes);
 
   const isLiked = data.isLiked;
-
-  if (isLiked) {
+  if (!isLiked) {
     cardLikeButton.classList.add("card__like-button_liked");
   }
-
-  //const isLiked =
-  //Array.isArray(data.likes) && data.likes.some((like) => like._id === userId);
-  //if (isLiked) {
-  //cardLikeButton.classList.add("card__like-button_liked");
-  // }
 
   cardLikeButton.addEventListener("click", () => {
     handleLike(data._id, cardLikeButton);
