@@ -172,11 +172,18 @@ function getCardElement(data, userId) {
   cardImageElement.src = data.link;
   cardImageElement.alt = data.name;
   console.log("Card data:", data.name, "Likes:", data.likes);
-  const isLiked =
-    Array.isArray(data.likes) && data.likes.some((like) => like._id === userId);
+
+  const isLiked = data.isLiked;
+
   if (isLiked) {
     cardLikeButton.classList.add("card__like-button_liked");
   }
+
+  //const isLiked =
+  //Array.isArray(data.likes) && data.likes.some((like) => like._id === userId);
+  //if (isLiked) {
+  //cardLikeButton.classList.add("card__like-button_liked");
+  // }
 
   cardLikeButton.addEventListener("click", () => {
     handleLike(data._id, cardLikeButton);
@@ -218,6 +225,7 @@ function handleAvatarSubmit(evt) {
     .then((data) => {
       profileAvatarImage.src = data.avatar;
       avatarForm.reset();
+      disableButton(avatarSubmitButton, settings); //  Disable button after reset
       closeModal(avatarModal);
     })
     .catch((err) => {
@@ -297,6 +305,10 @@ function handleEditFormSubmit(evt) {
 function handleCardSubmit(evt) {
   evt.preventDefault();
 
+  const submitBtn = evt.submitter;
+
+  setButtonText(submitBtn, true);
+
   const name = cardCaptionInput.value;
   const link = cardImageInput.value;
 
@@ -309,8 +321,9 @@ function handleCardSubmit(evt) {
       disableButton(cardSubmitButton, settings);
       closeModal(cardModal);
     })
-    .catch((err) => {
-      console.error("Failed to add card:", err);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitBtn, false);
     });
 }
 
